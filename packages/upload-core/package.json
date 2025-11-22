@@ -2,13 +2,29 @@
 	"name": "@momosemitsuki/upload-core",
 	"version": "1.0.0",
 	"description": "",
-	"main": "index.js",
+	"main": "./dist/index.cjs",
 	"type": "module",
+	"module": "./dist/index.esm.js",
+	"types": "./dist/index.d.ts",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"keywords": [],
 	"author": "MomoseMitsuki",
 	"license": "MIT",
-	"packageManager": "pnpm@10.22.0"
+	"packageManager": "pnpm@10.22.0",
+	"buildOptions": {
+		"name": "MomoseMitsukiUploadCore",
+		"formats": [
+			"esm",
+			"cjs",
+			"iife"
+		]
+	},
+	"files": [
+		"dist"
+	],
+	"publishConfig": {
+		"access": "public"
+	}
 }
