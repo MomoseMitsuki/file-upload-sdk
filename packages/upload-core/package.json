@@ -1,0 +1,14 @@
+{
+	"name": "@momosemitsuki/upload-core",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"type": "module",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [],
+	"author": "MomoseMitsuki",
+	"license": "MIT",
+	"packageManager": "pnpm@10.22.0"
+}

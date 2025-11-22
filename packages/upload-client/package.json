@@ -1,0 +1,19 @@
+{
+	"name": "@momosemitsuki/upload-client",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"type": "module",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"engines": {
+		"node": ">=22.11.0",
+		"npm": ">=10.9.2",
+		"pnpm": ">=10.22.0"
+	},
+	"keywords": [],
+	"author": "MomoseMitsuki",
+	"license": "MIT",
+	"packageManager": "pnpm@10.22.0"
+}
