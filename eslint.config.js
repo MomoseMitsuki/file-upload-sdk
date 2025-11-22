@@ -23,7 +23,7 @@ export default defineConfig(
 		rules: {
 			// 自定义
 			"@typescript-eslint/no-explicit-any": "off",
-			"@typescript-eslint/ban-types": "off",
+			"@typescript-eslint/no-unsafe-function-type": "off",
 			"no-var": "error"
 		}
 	},
