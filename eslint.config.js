@@ -22,12 +22,15 @@ export default defineConfig(
 		},
 		rules: {
 			// 自定义
+			"@typescript-eslint/no-explicit-any": "off",
+			"@typescript-eslint/ban-types": "off",
+			"no-var": "error"
 		}
 	},
 	// upload-client配置
 	{
 		ignores,
-		files: ["packages/upload-client/**/*.{ts,js,tsx,jsx,vue}", "packages/components/**/*.{ts,js,tsx,jsx,vue}"],
+		files: ["packages/upload-client/**/*.{ts,js}"],
 		extends: [eslintConfigPrettier],
 		languageOptions: {
 			globals: {
