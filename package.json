@@ -10,7 +10,13 @@
 		"lint:spellcheck": "cspell lint \"packages/**/*.{js,ts,mjs,cjs,json,css,less,scss,vue,html.md}\"",
 		"commit": "git-cz",
 		"prepare": "husky",
-		"precommit": "lint-staged"
+		"precommit": "lint-staged",
+		"build": "node ./scripts/build.js",
+		"dev": "node ./scripts/dev.js",
+		"publish:upload-client": "pnpm --filter \"@momosemitsuki/upload-client\" publish --no-git-checks",
+		"publish:upload-server": "pnpm --filter \"@momosemitsuki/upload-server\" publish --no-git-checks",
+		"publish:upload-core": "pnpm --filter \"@momosemitsuki/upload-core\" publish --no-git-checks",
+		"publish:upload-protocol": "pnpm --filter \"@momosemitsuki/upload-protocol\" publish --no-git-checks"
 	},
 	"config": {
 		"commitizen": {
