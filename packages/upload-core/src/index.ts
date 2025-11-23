@@ -108,7 +108,6 @@ export class TaskQueue extends EventEmitter<"start" | "pause" | "drain"> {
 		this.currentCount++;
 		Promise.resolve(task.run()).finally(() => {
 			this.currentCount--;
-			console.log("执行下一个任务");
 			this.runNext();
 		});
 		this.runNext();
