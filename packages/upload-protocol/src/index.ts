@@ -42,11 +42,11 @@ export interface UploadChunkHeader extends Record<string, string> {
 	"content-type": "application/octet-stream";
 }
 
-export interface MargeFileRequest extends Record<string, string> {
+export interface MergeFileRequest extends Record<string, string> {
 	"upload-token": string; // 文件上传 token
 	"upload-operation": "Merge"; // 合并操作
 }
 
-export interface MargeFileResponse {
+export interface MergeFileResponse {
 	url: string; // 合并结果,得到url地址访问资源
 }

@@ -8,8 +8,8 @@ type UploadChunkEvent = "end";
 import type {
 	CreateFileRequestHeader,
 	CreateFileResponse,
-	MargeFileRequest,
-	MargeFileResponse,
+	MergeFileRequest,
+	MergeFileResponse,
 	PatchHashResponse,
 	PatchHashRequestHeader
 } from "@momosemitsuki/upload-protocol";
@@ -21,7 +21,7 @@ export interface RequestStrategy {
 	// 分片上传请求
 	uploadChunk(chunk: Chunk, token: string, UploadChunkEvent: EventEmitter<UploadChunkEvent>): Promise<void>;
 	// 文件合并请求
-	mergeFile(token: string): Promise<MargeFileResponse>;
+	mergeFile(token: string): Promise<MergeFileResponse>;
 	// hash校验请求
 	patchHash<T extends "file" | "chunk">(token: string, hash: string, type: T): Promise<PatchHashResponse<T>>;
 }
@@ -58,13 +58,13 @@ export class FetchRequestStrategy implements RequestStrategy {
 		return;
 	}
 
-	async mergeFile(token: string): Promise<MargeFileResponse> {
-		const headers: MargeFileRequest = {
+	async mergeFile(token: string): Promise<MergeFileResponse> {
+		const headers: MergeFileRequest = {
 			"upload-token": token,
 			"upload-operation": "Merge"
 		};
 		const resp = await fetch(this.url, { headers });
-		const result = (await resp.json()) as MargeFileResponse;
+		const result = (await resp.json()) as MergeFileResponse;
 		return result;
 	}
 
