@@ -1,0 +1,34 @@
+{
+	"name": "@momosemitsuki/upload-protocol",
+	"version": "1.0.0",
+	"description": "",
+	"types": "dist/index.d.ts",
+	"exports": {
+		".": {
+			"require": "./dist/index.cjs",
+			"import": "./dist/index.esm.js",
+			"types": "./dist/index.d.ts"
+		}
+	},
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [],
+	"author": "MomoseMitsuki",
+	"license": "MIT",
+	"packageManager": "pnpm@10.22.0",
+	"buildOptions": {
+		"name": "MomoseMitsukiUploadProtocol",
+		"formats": [
+			"esm",
+			"cjs",
+			"iife"
+		]
+	},
+	"files": [
+		"dist"
+	],
+	"publishConfig": {
+		"access": "public"
+	}
+}
