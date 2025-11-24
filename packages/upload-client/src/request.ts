@@ -8,7 +8,7 @@ type UploadChunkEvent = "end";
 import type {
 	CreateFileRequestHeader,
 	CreateFileResponse,
-	MergeFileRequest,
+	MergeFileRequestHeader,
 	MergeFileResponse,
 	PatchHashResponse,
 	PatchHashRequestHeader
@@ -59,7 +59,7 @@ export class FetchRequestStrategy implements RequestStrategy {
 	}
 
 	async mergeFile(token: string): Promise<MergeFileResponse> {
-		const headers: MergeFileRequest = {
+		const headers: MergeFileRequestHeader = {
 			"upload-token": token,
 			"upload-operation": "Merge"
 		};
