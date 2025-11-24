@@ -129,9 +129,11 @@ export class UploadController extends EventEmitter<"start" | "end"> {
 		this.token = uploadToken;
 		this.uploadEmitter.on("end", () => {
 			// 记录当前已上传完毕的分片
-			this._fulfillCount++;
+			if (this.fulfillCount < this._ChunksCount) {
+				this._fulfillCount++;
+			}
 			// 上传完毕,进行合并,同时抛出 end 事件钩子, 可在 UploadController 的实例上通过 on 方法拿到 url 地址
-			if (this.fulfillCount === this.splitStrategy!.chunks.length) {
+			if (this.fulfillCount === this._ChunksCount) {
 				this.requestStrategy.mergeFile(this.token).then(resp => {
 					this.emit("end", resp.url);
 				});
@@ -166,6 +168,7 @@ export class UploadController extends EventEmitter<"start" | "end"> {
 	// 整体hash事件处理
 	private async handleWholeHash(hash: string) {
 		// hash校验
+		this.taskQueue.clear();
 		const resp = await this.requestStrategy.patchHash(this.token, hash, "file");
 		if (resp.hasFile) {
 			// 文件已存在
@@ -173,14 +176,15 @@ export class UploadController extends EventEmitter<"start" | "end"> {
 			return;
 		} else {
 			// 根据resp.rest重新编排后续任务
-			this.taskQueue.clear();
 			this.token = resp.token;
 			const restChunks: Chunk[] = [];
 			const allChunks = this.splitStrategy!.chunks;
 			// 获取 rest 剩余分片
-			resp.rest.forEach(limit => {
-				restChunks.concat(allChunks.slice(limit[0], limit[1]));
-			});
+			for (const limit of resp.rest) {
+				for (let i = limit[0]; i <= limit[1]; i++) {
+					restChunks.push(allChunks[i]!);
+				}
+			}
 			this._fulfillCount = this.ChunksCount - restChunks.length;
 			this.handleChunks(restChunks);
 		}
