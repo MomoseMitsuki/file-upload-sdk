@@ -9,7 +9,7 @@ export class MutilThreadSplitor extends ChunkSplitor {
 		super(file, chunkSize);
 		this.workers = new Array(navigator.hardwareConcurrency || 4).fill(0).map(
 			() =>
-				new Worker(new URL("./SplitWorker.ts", import.meta.url), {
+				new Worker(new URL("./SplitWorker.esm.js", import.meta.url), {
 					type: "module"
 				})
 		);
