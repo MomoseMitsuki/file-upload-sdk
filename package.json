@@ -1,8 +1,7 @@
 {
 	"name": "file-upload-sdk",
-	"version": "0.0.0",
+	"version": "1.0.0",
 	"description": "",
-	"main": "index.js",
 	"type": "module",
 	"scripts": {
 		"lint:prettier": "prettier --write \"**/*.{js,ts,mjs,cjs,json,tsx,css,less,scss,vue,html,md}\"",
