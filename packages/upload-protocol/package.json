@@ -1,6 +1,6 @@
 {
 	"name": "@momosemitsuki/upload-protocol",
-	"version": "1.0.0",
+	"version": "1.0.3",
 	"description": "",
 	"types": "dist/index.d.ts",
 	"exports": {
@@ -23,7 +23,10 @@
 			"esm",
 			"cjs",
 			"iife"
-		]
+		],
+		"entries": {
+			"index": "./index.ts"
+		}
 	},
 	"files": [
 		"dist"

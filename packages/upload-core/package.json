@@ -1,6 +1,6 @@
 {
 	"name": "@momosemitsuki/upload-core",
-	"version": "1.0.0",
+	"version": "1.0.3",
 	"description": "",
 	"exports": {
 		".": {
@@ -22,7 +22,10 @@
 			"esm",
 			"cjs",
 			"iife"
-		]
+		],
+		"entries": {
+			"index": "./index.ts"
+		}
 	},
 	"files": [
 		"dist"
