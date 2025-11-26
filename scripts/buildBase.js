@@ -8,7 +8,7 @@ import typescript from "rollup-plugin-typescript2";
 const __filename = URL.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const packages = ["utils", "components"];
+const packages = ["upload-core", "upload-protocol", "upload-client", "upload-server"];
 
 function getPackageRoots() {
 	return packages.map(pkg => path.resolve(__dirname, "../packages", pkg));
@@ -23,14 +23,19 @@ async function packageJson(root) {
 async function getRollupConfig(root) {
 	const config = await packageJson(root);
 	const tsconfig = path.resolve(root, "tsconfig.json");
-	const { name, formats } = config.buildOptions || {};
+	const { name, formats, external, entries } = config.buildOptions || {};
 	const dist = path.resolve(root, "./dist");
-	const entry = path.resolve(root, "./src/index.ts");
+	for (const key in entries) {
+		entries[key] = path.resolve(root, "./src", entries[key]);
+	}
+
 	const rollupOptions = {
-		input: entry,
+		input: entries,
 		sourcemap: true,
 		plugins: [
-			nodeResolve(),
+			nodeResolve({
+				preferBuiltins: true
+			}),
 			commonjs(),
 			typescript({
 				tsconfig,
@@ -39,13 +44,15 @@ async function getRollupConfig(root) {
 				}
 			})
 		],
-		dir: dist
+		dir: dist,
+		external
 	};
 	const output = [];
 	for (const format of formats) {
 		const outputItem = {
 			format,
-			file: path.resolve(dist, `index.${format}.js`),
+			dir: dist,
+			entryFileNames: format === "cjs" ? `[name].${format}` : `[name].${format}.js`,
 			sourcemap: true
 		};
 		if (format === "iife") {
