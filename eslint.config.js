@@ -24,6 +24,7 @@ export default defineConfig(
 			// 自定义
 			"@typescript-eslint/no-explicit-any": "off",
 			"@typescript-eslint/no-unsafe-function-type": "off",
+			"no-async-promise-executor": "off",
 			"no-var": "error"
 		}
 	},
