@@ -32,7 +32,6 @@ export function uploadChunkService(
 		// pipe 管道建立流式写入
 		rs.pipe(ws);
 		ws.on("finish", () => {
-			console.log("流式写入完成!");
 			recordChunkService(hash, token, size, index).then(() => resolve());
 		});
 		ws.on("error", reject);

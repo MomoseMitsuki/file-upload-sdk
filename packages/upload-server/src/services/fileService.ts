@@ -79,7 +79,6 @@ export async function patchFileHashService(token: string, hash: string): Promise
 		};
 	} else if (file && file.status === "pending") {
 		// 有文件记录, 之前上传过, 分片不齐
-		console.log("通过hash找到了file");
 		await FileModel.deleteOne({ token });
 		const totalCount = Math.ceil(file.size / file.chunkSize);
 		const rest = calcRestChunks(file.chunks as Array<Chunk>, totalCount);
@@ -123,12 +122,10 @@ export async function mergeFileService(token: string) {
 	const hash = spark.end();
 	// 文件大小不对
 	if (totalChunkSize !== file!.size) {
-		console.log("大小不对");
+		console.log("文件大小不对");
 		return { status: 500, message: "file size is wrong" };
 	}
 	// 文件hash不对
-	console.log("文件hash", file!.hash);
-	console.log("我们分片算出来的hash", hash);
 	if (hash !== file!.hash) {
 		return { status: 500, message: "chunks hash is not same with file" };
 	}
@@ -178,8 +175,6 @@ export async function deleteFileService(filePath: string, name: string, storePat
 	const chunks = file.chunks as Array<DocumentType<Chunk>>;
 	// 清理分片引用
 	for (const chunk of chunks) {
-		console.log("当前分片数量:", chunks.length);
-		console.log(`当前分片${chunk.index}文件引用情况: `, chunk.files);
 		if (chunk.files.includes(file._id)) {
 			const index = chunk.files.indexOf(file._id);
 			chunk.files.splice(index, 1);
@@ -188,15 +183,12 @@ export async function deleteFileService(filePath: string, name: string, storePat
 			if (chunk.files.length === 0) {
 				const chunkPath = path.resolve(storePath, `${chunk.hash}.chunk`);
 				await fs.promises.rm(chunkPath, { force: true });
-				console.log(`已删除: ${chunk.hash}.chunk`);
 				await ChunkModel.deleteOne({ _id: chunk._id });
-				console.log(`已清除 分片${chunk.index} 的记录`);
 			}
 		}
 	}
 	// 清理文件记录
 	await FileModel.deleteOne({ _id: file._id });
-	console.log(`已清除 文件${file.name} 的记录`);
 	return {
 		status: 200,
 		message: "delete file successfully"

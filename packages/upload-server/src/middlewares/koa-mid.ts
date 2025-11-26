@@ -112,7 +112,6 @@ export function downloadFileMiddleWare(storePath: string) {
 			const name = fullPath.substring(index + 1, fullPath.length);
 			// 从数据库里面查找文件, 和分片记录
 			const result = await checkFileService(path, name);
-			console.log(result.status);
 			if (result.status >= 500) {
 				ctx.status = result.status;
 				ctx.body = { message: "error" };
