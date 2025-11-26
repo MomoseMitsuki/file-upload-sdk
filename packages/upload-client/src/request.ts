@@ -87,6 +87,7 @@ export class UploadController extends EventEmitter<"start" | "end"> {
 	private splitStrategy!: ChunkSplitor;
 	private taskQueue: TaskQueue;
 	private token: string = "";
+	private isEnd: boolean = false;
 	private file: File;
 	private url: string;
 	private _ChunksCount = 0;
@@ -133,15 +134,18 @@ export class UploadController extends EventEmitter<"start" | "end"> {
 				this._fulfillCount++;
 			}
 			// 上传完毕,进行合并,同时抛出 end 事件钩子, 可在 UploadController 的实例上通过 on 方法拿到 url 地址
-			if (this.fulfillCount === this._ChunksCount) {
+			if (this.fulfillCount === this._ChunksCount && !this.isEnd) {
 				this.requestStrategy.mergeFile(this.token).then(resp => {
-					this.emit("end", resp.url);
+					if (!this.isEnd) {
+						this.emit("end", resp.url);
+					}
 				});
 			}
 		});
 		// 分片事件监听
 		this.splitStrategy!.on("chunks", this.handleChunks.bind(this));
 		this.splitStrategy!.on("wholeHash", this.handleWholeHash.bind(this));
+		this.once("end", () => (this.isEnd = true));
 		this.splitStrategy.split();
 	}
 
@@ -172,7 +176,10 @@ export class UploadController extends EventEmitter<"start" | "end"> {
 		const resp = await this.requestStrategy.patchHash(this.token, hash, "file");
 		if (resp.hasFile) {
 			// 文件已存在
-			this.emit("end", resp.url);
+			this._fulfillCount = this._ChunksCount;
+			if (!this.isEnd) {
+				this.emit("end", resp.url);
+			}
 			return;
 		} else {
 			// 根据resp.rest重新编排后续任务
